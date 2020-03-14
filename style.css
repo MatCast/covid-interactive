@@ -1,0 +1,122 @@
+* {
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: 'Open Sans', sans-serif;
+  }
+  
+  a:link {
+    color: #26a6f6;
+  }
+  
+  a:visited {
+    color: #26a6f6;
+  }
+  
+  a:hover {
+    color: #26a6f6;
+  }
+  
+  a:active {
+    color: #26a6f6;
+  }
+  
+  .current-values {
+    display: flex;
+    width: 100%;
+  }
+  
+  .values-wrapper {
+    margin: auto;
+    padding-bottom: 0
+    .5rem;
+    text-align: center;
+    width: 50%;
+  }
+  
+  .chart-wrapper {
+    margin: auto;
+    padding-bottom: 3rem;
+    text-align: center;
+    width: 100%;
+  }
+  
+  /* #tempChart{
+    margin: 2rem;
+  } */
+  
+  .values-wrapper .value {
+    font-size: 1.8rem;
+  }
+  
+  .station-time {
+    font-size: 1.2rem;
+    width: 100%;
+    text-align: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  
+  .value-description {
+    font-size: 1rem;
+    text-align: center;
+  }
+  
+  .chartjs-chart {
+    min-height: 360px;
+  }
+  
+  #page-wrapper {
+    /* -moz-animation: colorchange 30s ease infinite;
+    -o-animation: colorchange 30s ease infinite;
+    -webkit-animation: colorchange 30s ease infinite;
+    animation: colorchange 30s ease infinite;
+    background: linear-gradient(270deg, #73c4f7, #f7ee73, #f7c073, #f77a73);
+    background-size: 800% 800%; */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Fallback for browsers that do not support Custom Properties */
+    min-height: calc(var(--vh, 1vh) * 100);
+    position: relative;
+    width: 100vw;
+  }
+  
+  #footer {
+    background: #dfe8ee;
+    border-top: 0.2rem solid black;
+    bottom: 0;
+    box-sizing: border-box;
+    color: black;
+    font-size: 2vmin;
+    /* height: 2.5rem; */
+    padding: 1rem;
+    position: absolute;
+    width: 100%;
+  }
+  
+  @-webkit-keyframes colorchange {
+      0%{background-position:0% 50%}
+      50%{background-position:100% 50%}
+      100%{background-position:0% 50%}
+  }
+  @-moz-keyframes colorchange {
+      0%{background-position:0% 50%}
+      50%{background-position:100% 50%}
+      100%{background-position:0% 50%}
+  }
+  @-o-keyframes colorchange {
+      0%{background-position:0% 50%}
+      50%{background-position:100% 50%}
+      100%{background-position:0% 50%}
+  }
+  @keyframes colorchange {
+      0%{background-position:0% 50%}
+      50%{background-position:100% 50%}
+      100%{background-position:0% 50%}
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
