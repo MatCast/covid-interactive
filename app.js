@@ -184,24 +184,27 @@ const dataMap = {
     }
   });
   
-  formatData()
+main()
 
-  function transpose(data) {
-      tranposed = []
-      data.columns.array.forEach(element => {
-          
-      });
-    return Object.keys(a[0]).map(function(c) {
-        return a.map(function(r) { return r[c]; });
+function transpose(data) {
+    tranposed = []
+    data.columns.array.forEach(element => {
+        
     });
+  return Object.keys(a[0]).map(function(c) {
+      return a.map(function(r) { return r[c]; });
+  });
 }
 
-  function formatData() {
-    d3.json(dataURL).then(function(data) {
-      const dataset1 = prepDataset(data , 'Italy');
-      const dataset2 = prepDataset(data , 'Spain');
-      updateChart(tempChart, [dataset1, dataset2]);
-  })
+function main() {
+  d3.json(dataURL).then(function(data) {
+    const dataset1 = prepDataset(data , 'Italy');
+    const dataset2 = prepDataset(data , 'Spain');
+    updateChart(compChart, [dataset1, dataset2]);
+    populateNations(data, 'nations-list');
+    const search = document.getElementById('search-nation');
+    search.addEventListener('keyup', function() {searchNation('search-nation', 'nations-list');});
+})
 }
   
 function prepDataset(data, nation){
@@ -258,6 +261,46 @@ function updateLabels(chart, newLabels) {
   });
 }
 
+function populateNations(data, ulID){
+  let ul = document.getElementById(ulID);
+  ul.innerHTML = '';
+  nations = Object.keys(data);
+  nations.forEach((nation, i) => {
+    let li = document.createElement("li");
+    let label = document.createElement("label");
+    let input = document.createElement("input");
+    let text = document.createTextNode(nation)
+    input.setAttribute("type", "checkbox");
+    label.appendChild(input);
+    label.appendChild(text);
+    li.appendChild(label);
+    ul.appendChild(li);
+  })
+}
+
+function searchNation(searchID, ulID) {
+  console.log('here');
+  
+  // Declare variables
+  let input, filter, ul, li, a, i, txtValue;
+  input = document.getElementById(searchID);
+  filter = input.value.toUpperCase();
+  ul = document.getElementById(ulID);
+  li = ul.getElementsByTagName('li');
+
+  // Loop through all list items, and hide those who don't match the search query
+  for (i = 0; i < li.length; i++) {
+    label = li[i].getElementsByTagName("label")[0];
+    txtValue = label.innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      li[i].style.display = "";
+    } else {
+      li[i].style.display = "none";
+    }
+  }
+}
+
+
 // Updates all datasets of the chart removing old ones
 function updateDataSets(chart, newDatSets) {
   // removeDataSets(chart);
@@ -267,16 +310,21 @@ function updateDataSets(chart, newDatSets) {
   chart.update();
 }
 
-// Completely updates the chart (datasets and labels)
-function updateChart(chart, datasets) {
-  const newLabels = chooseLabels(datasets);
+function formatDatasets(dataObject) {
   let newDataSets = []
-  datasets.forEach((dataset, i) => {
+  dataObject.forEach((dataset, i) => {
     newDataSets.push(dataset.dataset);
     dataset.dataset.borderColor = colors[i];
     dataset.dataset.backgroundColor = colors[i].substring(0, colors[i].length - 1) + ', 0.2)'
     dataset.dataset.fill = true;
   })
+  return newDataSets;
+}
+
+// Completely updates the chart (datasets and labels)
+function updateChart(chart, dataObject) {
+  const newLabels = chooseLabels(dataObject);
+  const newDataSets = formatDatasets(dataObject)
   updateLabels(chart, newLabels);
   updateDataSets(chart, newDataSets);
 }

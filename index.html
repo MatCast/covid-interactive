@@ -17,15 +17,9 @@
   <body>
     <div id="page-wrapper">
       <h1 class="station-time"></h1>
-      <div class="current-values">
-        <div class="values-wrapper">
-          <h3 class="value-description">Temperature</h3>
-          <h1 class="value" id="temp-value"></h1>
-        </div>
-        <div class="values-wrapper">
-          <h3 class="value-description">Wind</h3>
-          <h1 class="value"id="wind-value"></h1>
-        </div>
+      <div class="inputs-wrapper">
+        <input type="search" id="search-nation", placeholder="Search...">
+        <ul id="nations-list"></ul>
       </div>
       <div class="chart-wrapper">
         <canvas id="compChart" class="chartjs-chart"></canvas>
