@@ -186,6 +186,8 @@ const dataMap = {
   
 main()
 
+const nationsToPlot = []
+
 function transpose(data) {
     tranposed = []
     data.columns.array.forEach(element => {
@@ -204,6 +206,9 @@ function main() {
     populateNations(data, 'nations-list');
     const search = document.getElementById('search-nation');
     search.addEventListener('keyup', function() {searchNation('search-nation', 'nations-list');});
+    document.querySelectorAll('input[type="checkbox"]').forEach((el) =>{
+      el.addEventListener('change', (e) => {getSelectedNation(e)})
+    })
 })
 }
   
@@ -300,6 +305,13 @@ function searchNation(searchID, ulID) {
   }
 }
 
+function getSelectedNation(e) {
+  nation = e.target.parentNode.innerText
+  if (e.target.checked == false) {
+    nationsToPlot
+  }
+  
+}
 
 // Updates all datasets of the chart removing old ones
 function updateDataSets(chart, newDatSets) {
