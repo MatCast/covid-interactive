@@ -205,9 +205,12 @@ function main() {
     const close = document.getElementById('close-inputs');
     search.addEventListener('focusin', function() {
       document.getElementById('nations-to-add').classList.remove("hidden");
+      close.classList.remove("hidden");
     });
     close.addEventListener('click', function() {
       document.getElementById('nations-to-add').classList.add("hidden");
+      close.classList.add("hidden");
+      search.value = '';
     });
     search.addEventListener('keyup', function() {searchNation('search-nation', 'nations-list');});
     document.querySelectorAll('input[type="checkbox"]').forEach((el) =>{
