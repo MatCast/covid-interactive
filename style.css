@@ -82,10 +82,10 @@
 #nations-list {
   font-size: 0.8rem;
   max-width: 100;
-  height: 300px; /*your fixed height*/
-  -webkit-column-count: 2;
-      -moz-column-count: 2;
-          column-count: 2; /*3 in those rules is just placeholder -- can be anything*/
+  height: 100px; /*your fixed height*/
+  -webkit-column-count: 3;
+      -moz-column-count: 3;
+          column-count: 3; /*3 in those rules is just placeholder -- can be anything*/
   overflow: hidden;
   list-style-type: none;
 }

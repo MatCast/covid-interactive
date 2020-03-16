@@ -186,7 +186,7 @@ const dataMap = {
   
 main()
 
-const nationsToPlot = []
+const nationsToPlot = ['World']
 
 function transpose(data) {
     tranposed = []
@@ -200,15 +200,14 @@ function transpose(data) {
 
 function main() {
   d3.json(dataURL).then(function(data) {
-    const dataset1 = prepDataset(data , 'Italy');
-    const dataset2 = prepDataset(data , 'Spain');
-    updateChart(compChart, [dataset1, dataset2]);
     populateNations(data, 'nations-list');
     const search = document.getElementById('search-nation');
     search.addEventListener('keyup', function() {searchNation('search-nation', 'nations-list');});
     document.querySelectorAll('input[type="checkbox"]').forEach((el) =>{
-      el.addEventListener('change', (e) => {getSelectedNation(e)})
-    })
+      el.addEventListener('change', (e) => {getSelectedNation(e, compChart, data)})
+    });
+    updateChart(compChart, data, nationsToPlot);
+    checkNations();
 })
 }
   
@@ -284,8 +283,6 @@ function populateNations(data, ulID){
 }
 
 function searchNation(searchID, ulID) {
-  console.log('here');
-  
   // Declare variables
   let input, filter, ul, li, a, i, txtValue;
   input = document.getElementById(searchID);
@@ -305,7 +302,15 @@ function searchNation(searchID, ulID) {
   }
 }
 
-function getSelectedNation(e) {
+function checkNations() {
+  document.querySelectorAll('input[type="checkbox"]').forEach((el) => {
+    if (nationsToPlot.includes(el.parentNode.innerText)) {
+      el.checked = true;
+    }
+  })
+}
+
+function getSelectedNation(e, compChart, data) {
   nation = e.target.parentNode.innerText
   if (e.target.checked == false) {
     let ix = nationsToPlot.indexOf(nation);
@@ -317,7 +322,8 @@ function getSelectedNation(e) {
     nationsToPlot.push(nation);
   }
   console.log(nationsToPlot);
-  
+  removeDataSets(compChart);
+  updateChart(compChart, data, nationsToPlot);
 }
 
 // Updates all datasets of the chart removing old ones
@@ -341,9 +347,14 @@ function formatDatasets(dataObject) {
 }
 
 // Completely updates the chart (datasets and labels)
-function updateChart(chart, dataObject) {
-  const newLabels = chooseLabels(dataObject);
-  const newDataSets = formatDatasets(dataObject)
+function updateChart(chart, data, nations) {
+  const dataObjects = []
+  nations.forEach((nation) => {
+    dataObjects.push(prepDataset(data , nation));
+    
+  })
+  let newLabels = chooseLabels(dataObjects);
+  let newDataSets = formatDatasets(dataObjects);
   updateLabels(chart, newLabels);
   updateDataSets(chart, newDataSets);
 }
@@ -362,29 +373,4 @@ function formatDataSet(key, jsonData) {
     pointRadius: dataMap[key].pointRadius,
   };
   return newDataset;
-}
-
-// updates the temperature chart
-function updataTempChart(chart, data) {
-  removeNegativeRR(data.rr);
-  roundSunshine(data.so);
-  const newDatSets = [
-    formatDataSet('tl', data),
-    formatDataSet('tp', data),
-    formatDataSet('rr', data),
-    formatDataSet('so', data)
-  ];
-  const newLabels = data.datumsec;
-  updateChart(chart, newLabels, newDatSets);
-}
-
-// updates the pressure chart
-function updataPressChart(chart, data) {
-  const newDatSets = [
-    formatDataSet('p', data),
-    formatDataSet('ff', data),
-    formatDataSet('dd', data),
-  ];
-  const newLabels = data.datumsec;
-  updateChart(chart, newLabels, newDatSets);
 }
