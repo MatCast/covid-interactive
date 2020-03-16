@@ -308,8 +308,15 @@ function searchNation(searchID, ulID) {
 function getSelectedNation(e) {
   nation = e.target.parentNode.innerText
   if (e.target.checked == false) {
-    nationsToPlot
+    let ix = nationsToPlot.indexOf(nation);
+    if (ix > -1) {
+      nationsToPlot.splice(ix, 1)
+    }
   }
+  else{
+    nationsToPlot.push(nation);
+  }
+  console.log(nationsToPlot);
   
 }
 
