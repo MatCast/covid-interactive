@@ -202,6 +202,13 @@ function main() {
   d3.json(dataURL).then(function(data) {
     populateNations(data, 'nations-list');
     const search = document.getElementById('search-nation');
+    const close = document.getElementById('close-inputs');
+    search.addEventListener('focusin', function() {
+      document.getElementById('nations-to-add').classList.remove("hidden");
+    });
+    close.addEventListener('click', function() {
+      document.getElementById('nations-to-add').classList.add("hidden");
+    });
     search.addEventListener('keyup', function() {searchNation('search-nation', 'nations-list');});
     document.querySelectorAll('input[type="checkbox"]').forEach((el) =>{
       el.addEventListener('change', (e) => {getSelectedNation(e, compChart, data)})
