@@ -82,6 +82,12 @@ const dataMap = {
       tooltips: {
         mode: 'x-axis',
         intersect: true,
+        callback: {
+          title: function(tooltipItem, data) {
+            let label = data.labels[tooltipItem.index];
+            return label + ': (' + tooltipItem.xLabel + ', ' + tooltipItem.yLabel + ')';
+         }
+        },
       },
       responsive: true,
       maintainAspectRatio: false,
