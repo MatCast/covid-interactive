@@ -4,6 +4,7 @@ const colors = [
   'rgb(255, 215, 0)',
   'rgb(1, 103, 103)',
   'rgb(226, 113, 141)',
+  'rgb(67, 160, 195)',
 ]
 const dataMap = {
     'rr': {
@@ -124,7 +125,7 @@ const dataMap = {
   });
   
   //  pressure chart
-  const pressChart = new Chart(document.getElementById('pressChart').getContext('2d'), {
+  const deathsChart = new Chart(document.getElementById('pressChart').getContext('2d'), {
     // The type of chart we want to create
     type: 'line',
   
@@ -143,44 +144,44 @@ const dataMap = {
       responsive: true,
       maintainAspectRatio: false,
       layout: {
-        padding: {
+        margin: {
           left: 10,
           right: 10,
           top: 10,
           bottom: 10
         },
       },
-      scales: {
-        xAxes: [{
-          scaleLabel: {
-            display: true,
-          },
-          type: 'time',
-          time: {
-            tooltipFormat: 'YYYY-MM-DD HH:mm',
-            displayFormats: {
-              hour: 'MMM DD HH:mm'
-            }
-          },
-          gridLines: {
-            display: false
-          },
-        }],
-        yAxes: [{
-            scaleLabel: {
-              display: true,
-              labelString: 'Pressure [hPa]',
-              fontColor: dataMap.p.color,
-            },
-            id: 'Pressure',
-            type: 'linear',
-            position: 'left',
-            gridLines: {
-              display: false
-            },
-          },
-        ]
-      }
+      // scales: {
+      //   xAxes: [{
+      //     scaleLabel: {
+      //       display: true,
+      //     },
+      //     type: 'time',
+      //     time: {
+      //       tooltipFormat: 'YYYY-MM-DD HH:mm',
+      //       displayFormats: {
+      //         hour: 'MMM DD HH:mm'
+      //       }
+      //     },
+      //     gridLines: {
+      //       display: false
+      //     },
+      //   }],
+      //   yAxes: [{
+      //       scaleLabel: {
+      //         display: true,
+      //         labelString: 'Pressure [hPa]',
+      //         fontColor: dataMap.p.color,
+      //       },
+      //       id: 'Pressure',
+      //       type: 'linear',
+      //       position: 'left',
+      //       gridLines: {
+      //         display: false
+      //       },
+      //     },
+      //   ]
+      // }
     }
   });
   
@@ -228,8 +229,6 @@ function prepDataset(data, nation){
     dataset : {
       label: nation,
       data: [],
-      backgroundColor: 'rgb(14, 143, 71, 0.3)',
-      borderColor: 'rgb(14, 143, 71)',
   }
   }
   i = 0
@@ -362,8 +361,11 @@ function getSelectedNation(node){
   nation = node.parentNode.innerText
   if (node.checked == false) {
     let ix = nationsToPlot.indexOf(nation);
-    let divChip = getChip(nation);    
-    divChip.remove();
+    let divChip = getChip(nation);
+    if (divChip != null) {
+      divChip.remove();
+    }   
+    
     if (ix > -1) {
       nationsToPlot.splice(ix, 1)
     }
@@ -382,7 +384,6 @@ function changeNations(e, compChart, data) {
 
 // Updates all datasets of the chart removing old ones
 function updateDataSets(chart, newDatSets) {
-  // removeDataSets(chart);
   newDatSets.forEach((newDatSet) => {
     addDataSet(chart, newDatSet);
   });
@@ -395,7 +396,7 @@ function formatDatasets(dataObject) {
     newDataSets.push(dataset.dataset);
     dataset.dataset.borderColor = colors[i];
     dataset.dataset.backgroundColor = colors[i].substring(0, colors[i].length - 1) + ', 0.2)'
-    dataset.dataset.fill = true;
+    dataset.dataset.fill = false;
   })
   return newDataSets;
 }
