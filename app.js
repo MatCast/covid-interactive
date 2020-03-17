@@ -82,10 +82,10 @@ const dataMap = {
       tooltips: {
         mode: 'x-axis',
         intersect: true,
-        callback: {
-          title: function(tooltipItem, data) {
-            let label = data.labels[tooltipItem.index];
-            return label + ': (' + tooltipItem.xLabel + ', ' + tooltipItem.yLabel + ')';
+        callbacks: {
+          title: function(tooltipItem) {
+            let point = tooltipItem[0].label; 
+            return `Day ${point}`;
          }
         },
       },
@@ -137,7 +137,12 @@ const dataMap = {
       tooltips: {
         mode: 'x-axis',
         intersect: true,
-        title: 'Days'
+        callbacks: {
+          title: function(tooltipItem, data) {
+            let point = tooltipItem[0].label; 
+            return `Day ${point}`;
+         },
+        }
       },
       responsive: true,
       maintainAspectRatio: false,
