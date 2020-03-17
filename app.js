@@ -86,7 +86,7 @@ const dataMap = {
       responsive: true,
       maintainAspectRatio: false,
       layout: {
-        margin: {
+        padding: {
           left: 10,
           right: 10,
           top: 10,
@@ -126,7 +126,7 @@ const dataMap = {
   });
   
   //  pressure chart
-  const deathsChart = new Chart(document.getElementById('deathsChart').getContext('2d'), {
+  const deathChart = new Chart(document.getElementById('deathsChart').getContext('2d'), {
     // The type of chart we want to create
     type: 'line',
   
@@ -145,11 +145,11 @@ const dataMap = {
       responsive: true,
       maintainAspectRatio: false,
       layout: {
-        margin: {
+        padding: {
           left: 10,
           right: 10,
           top: 10,
-          bottom: 10
+          bottom: 30
         },
       },
       // scales: {
@@ -220,7 +220,7 @@ function main() {
     document.querySelectorAll('input[type="checkbox"]').forEach((el) =>{
       el.addEventListener('change', (e) => {changeNations(e, compChart, deathChart, dataComp, dataDeaths)})
     });
-    updateChart(compChart, dataComp, nationsToPlot);
+    updateCharts(compChart, deathChart, dataComp, dataDeaths, nationsToPlot);
     createChips(nationsToPlot);
     checkNations();
 })
@@ -251,17 +251,20 @@ function prepDataset(data, nation){
 
 function prepDeaths(data, nation, casesObject){
   const dataObject = {
-    labels: casesObject.labels,
+    labels: [],
     dataset : {
       label: nation,
       data: [],
   }
   }
+  let j = 0;
   const start = data[nation].length - casesObject.labels.length;
   data[nation].forEach((d,i) => {
     if (i >= start) {
+      j += 1;
+      dataObject.labels.push(j)
       dataObject.dataset.data.push({
-        x: i,
+        x: j,
         y: d,
       })
     }
@@ -402,9 +405,8 @@ function getSelectedNation(node){
 function changeNations(e, compChart, deathChart, dataComp, dataDeaths) {
   getSelectedNation(e.target);
   removeDataSets(compChart);
-  updateChart(compChart, dataComp, nationsToPlot);
   removeDataSets(deathChart);
-  updateChart(deathChart, dataDeaths, nationsToPlot);
+  updateCharts(compChart, deathChart, dataComp, dataDeaths, nationsToPlot);
 }
 
 // Updates all datasets of the chart removing old ones
@@ -427,16 +429,25 @@ function formatDatasets(dataObject) {
 }
 
 // Completely updates the chart (datasets and labels)
-function updateChart(chart, data, nations) {
-  const dataObjects = []
+function updateCharts(compChart, deathChart, dataComp, dataDeaths, nations) {
+  const dataObjectsComp = [];
   nations.forEach((nation) => {
-    dataObjects.push(prepDataset(data , nation));
+    dataObjectsComp.push(prepDataset(dataComp , nation));
     
   })
-  let newLabels = chooseLabels(dataObjects);
-  let newDataSets = formatDatasets(dataObjects);
-  updateLabels(chart, newLabels);
-  updateDataSets(chart, newDataSets);
+  
+  const dataObjectsDeaths = [];
+  nations.forEach((nation, i) => {
+    dataObjectsDeaths.push(prepDeaths(dataDeaths, nation, dataObjectsComp[i]));
+    
+  })
+  let newLabels = chooseLabels(dataObjectsComp);
+  let newDataSetsComp = formatDatasets(dataObjectsComp);
+  let newDataSetsDeaths = formatDatasets(dataObjectsDeaths);
+  updateLabels(compChart, newLabels);
+  updateLabels(deathChart, newLabels);
+  updateDataSets(compChart, newDataSetsComp);
+  updateDataSets(deathChart, newDataSetsDeaths);
 }
 
 
