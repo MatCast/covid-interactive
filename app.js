@@ -89,39 +89,29 @@ const dataMap = {
         padding: {
           left: 10,
           right: 10,
-          top: 10,
+          top: 0,
           bottom: 10
         },
-      },
-      // scales: {
-      //   xAxes: [{
-      //     type: 'time',
-      //     time: {
-      //       tooltipFormat: 'YYYY-MM-DD HH:mm',
-      //       displayFormats: {
-      //         hour: 'MMM DD HH:mm'
-      //       }
-      //     },
-      //     gridLines: {
-      //       display: false
-      //     },
-      //   }],
-      //   yAxes: [{
-      //       scaleLabel: {
-      //         display: true,
-      //         labelString: 'Temperature [\xB0C]',
-      //         fontColor: dataMap.tl.color,
-      //       },
-      //       id: 'Temperature',
-      //       type: 'linear',
-      //       position: 'left',
-      //       gridLines: {
-      //         display: false
-      //       },
-      //     },
-          
-      //   ]
-      // }
+      },scales: {
+        xAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Days since confrmed cases > 99',
+          },
+          type: 'linear',
+          position: 'left',
+        },
+      ],
+        yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Total number of confirmed cases',
+            },
+            type: 'linear',
+            position: 'left',
+          },
+        ]
+      }
     }
   });
   
@@ -148,41 +138,30 @@ const dataMap = {
         padding: {
           left: 10,
           right: 10,
-          top: 10,
+          top: 0,
           bottom: 30
         },
       },
-      // scales: {
-      //   xAxes: [{
-      //     scaleLabel: {
-      //       display: true,
-      //     },
-      //     type: 'time',
-      //     time: {
-      //       tooltipFormat: 'YYYY-MM-DD HH:mm',
-      //       displayFormats: {
-      //         hour: 'MMM DD HH:mm'
-      //       }
-      //     },
-      //     gridLines: {
-      //       display: false
-      //     },
-      //   }],
-      //   yAxes: [{
-      //       scaleLabel: {
-      //         display: true,
-      //         labelString: 'Pressure [hPa]',
-      //         fontColor: dataMap.p.color,
-      //       },
-      //       id: 'Pressure',
-      //       type: 'linear',
-      //       position: 'left',
-      //       gridLines: {
-      //         display: false
-      //       },
-      //     },
-      //   ]
-      // }
+      scales: {
+        xAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Days since confrmed cases > 99',
+          },
+          type: 'linear',
+          position: 'left',
+        },
+      ],
+        yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Total number of Deaths',
+            },
+            type: 'linear',
+            position: 'left',
+          },
+        ]
+      }
     }
   });
   

@@ -30,15 +30,23 @@
   
   .values-wrapper {
     margin: auto;
-    padding-bottom: 0
-    .5rem;
+    padding-bottom: 0.5rem;
     text-align: center;
     width: 50%;
   }
   
-  .chart-wrapper {
-    margin: auto;
+  .chart-title {
+    padding: 0;
+  }
+
+  .charts-container {
+    text-align: center;
     padding-bottom: 3rem;
+  }
+
+  .chart-wrapper {
+    padding-bottom: 1rem;
+    margin: auto;
     text-align: center;
     width: 100%;
   }
