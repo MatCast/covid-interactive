@@ -131,6 +131,7 @@ const dataMap = {
       tooltips: {
         mode: 'x-axis',
         intersect: true,
+        title: 'Days'
       },
       responsive: true,
       maintainAspectRatio: false,
@@ -347,7 +348,7 @@ function createChips(nations){
   span.classList.add('closebtn');
   nations.forEach(nation => {
     divChip.innerText = nation;
-    span.innerText = 'x';
+    span.innerText = 'X';
     divChip.append(span);
     span.addEventListener('click', () => {removeFromChart(divChip);} );
     divActive.appendChild(divChip);
