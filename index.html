@@ -19,9 +19,11 @@
       <h1 class="station-time"></h1>
       <div class="inputs-wrapper" id="inputs-section">
         <input type="text" id="search-nation", placeholder="Search Nation...">
-        <span class="close hidden" id="close-inputs"></span>
-        <div id="active-nations"></div>
-        <div id="nations-to-add" class="hidden">
+        <span class="closebtn search hidden" id="close-inputs">X</span>
+        <!-- <span class="close hidden" id="close-inputs"></span> -->
+        <div id="active-nations" class="nations-list"></div>
+        <div id="nations-to-add" class="nations-list hidden">
+          <h4 class="instructions">Flag a Nation to add it to the chart, click <span class="closebtn title">X</span> to remove it</h4>
           <ul id="nations-list" class="nations-list"></ul>
         </div>
         

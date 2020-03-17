@@ -5,177 +5,133 @@ const colors = [
   'rgb(1, 103, 103)',
   'rgb(226, 113, 141)',
   'rgb(67, 160, 195)',
-]
-const dataMap = {
-    'rr': {
-      'label': 'Precipitation',
-      'color': 'rgb(67, 160, 195)',
-      'fill': true,
-      'yAxisID': 'Precipitation',
-      'showLine': true,
-      'pointRadius': 0,
-    },
-    'tl': {
-      'label': 'Temperature',
-      'color': 'rgb(255, 69, 0)',
-      'fill': false,
-      'yAxisID': 'Temperature',
-      'showLine': true,
-      'pointRadius': 0,
-    },
-    'tp': {
-      'label': 'Dewpoint',
-      'color': 'rgb(1, 103, 103)',
-      'fill': false,
-      'yAxisID': 'Temperature',
-      'showLine': true,
-      'pointRadius': 0,
-    },
-    'p': {
-      'label': 'Pressure',
-      'color': 'rgb(71, 14, 143)',
-      'fill': false,
-      'yAxisID': 'Pressure',
-      'showLine': true,
-      'pointRadius': 0,
-    },
-    'so': {
-      'label': 'Sunshine',
-      'color': 'rgb(255, 215, 0)',
-      'fill': true,
-      'yAxisID': 'Sunshine',
-      'showLine': true,
-      'pointRadius': 0,
-    },
-    'ff': {
-      'label': 'Windspeed',
-      'color': 'rgb(14, 143, 71)',
-      'fill': false,
-      'yAxisID': 'Windspeed',
-      'showLine': true,
-      'pointRadius': 0,
-    },
-    'dd': {
-      'label': 'Winddirection',
-      'color': 'rgba(48, 48, 48, 0.8)',
-      'fill': false,
-      'yAxisID': 'Winddirection',
-      'showLine': false,
-      'pointRadius': 2,
-    }
-  };
- 
-  const confirmedURL = 'confirmed.json';
-  const deathsURL = 'deaths.json';
-  //  temperature chart
-  const compChart = new Chart(document.getElementById('compChart').getContext('2d'), {
-    // The type of chart we want to create
-    type: 'line',
-  
-    // The data for our dataset
-    data: {
-      datasets: []
-   },
-  
-    // Configuration options go here
-    options: {
-      tooltips: {
-        mode: 'x-axis',
-        intersect: true,
-        callbacks: {
-          title: function(tooltipItem) {
-            let point = tooltipItem[0].label; 
-            return `Day ${point}`;
-         }
-        },
-      },
-      responsive: true,
-      maintainAspectRatio: false,
-      layout: {
-        padding: {
-          left: 10,
-          right: 10,
-          top: 0,
-          bottom: 10
-        },
-      },scales: {
-        xAxes: [{
-          scaleLabel: {
-            display: true,
-            labelString: 'Days since confrmed cases > 99',
-          },
-          type: 'linear',
-          position: 'left',
-        },
-      ],
-        yAxes: [{
-            scaleLabel: {
-              display: true,
-              labelString: 'Total number of confirmed cases',
-            },
-            type: 'linear',
-            position: 'left',
-          },
-        ]
-      }
-    }
-  });
-  
-  //  pressure chart
-  const deathChart = new Chart(document.getElementById('deathsChart').getContext('2d'), {
-    // The type of chart we want to create
-    type: 'line',
-  
-    // The data for our dataset
-    data: {
-      labels: [],
-      datasets: []
-    },
-  
-    // Configuration options go here
-    options: {
-      tooltips: {
-        mode: 'x-axis',
-        intersect: true,
-        callbacks: {
-          title: function(tooltipItem, data) {
-            let point = tooltipItem[0].label; 
-            return `Day ${point}`;
-         },
+  'rgb(178, 34, 34)',
+  'rgb(255, 20, 147)',
+  'rgb(50, 205, 50)',
+  'rgb(0, 0, 139)',
+  'rgb(210, 105, 30)'
+]; 
+const confirmedURL = 'confirmed.json';
+const deathsURL = 'deaths.json';
+//  temperature chart
+const compChart = new Chart(document.getElementById('compChart').getContext('2d'), {
+  // The type of chart we want to create
+  type: 'line',
+
+  // The data for our dataset
+  data: {
+    datasets: []
+  },
+
+  // Configuration options go here
+  options: {
+    tooltips: {
+      mode: 'x-axis',
+      intersect: true,
+      callbacks: {
+        title: function(tooltipItem) {
+          let point = tooltipItem[0].label; 
+          return `Day ${point}`;
         }
       },
-      responsive: true,
-      maintainAspectRatio: false,
-      layout: {
-        padding: {
-          left: 10,
-          right: 10,
-          top: 0,
-          bottom: 30
+    },
+    responsive: true,
+    maintainAspectRatio: false,
+    layout: {
+      padding: {
+        left: 10,
+        right: 10,
+        top: 0,
+        bottom: 10
+      },
+    },scales: {
+      xAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: 'Days since confrmed cases > 99',
+        },
+        type: 'linear',
+        position: 'left',
+      ticks: {
+        // Include a dollar sign in the ticks
+        callback: function(value, index, values) {
+            return parseInt(value);
         },
       },
-      scales: {
-        xAxes: [{
+    }],
+      yAxes: [{
           scaleLabel: {
             display: true,
-            labelString: 'Days since confrmed cases > 99',
+            labelString: 'Total number of confirmed cases',
           },
           type: 'linear',
           position: 'left',
         },
-      ],
-        yAxes: [{
-            scaleLabel: {
-              display: true,
-              labelString: 'Total number of Deaths',
-            },
-            type: 'linear',
-            position: 'left',
-          },
-        ]
-      }
+      ]
     }
-  });
+  }
+});
+
+//  pressure chart
+const deathChart = new Chart(document.getElementById('deathsChart').getContext('2d'), {
+  // The type of chart we want to create
+  type: 'line',
+
+  // The data for our dataset
+  data: {
+    labels: [],
+    datasets: []
+  },
+
+  // Configuration options go here
+  options: {
+    tooltips: {
+      mode: 'x-axis',
+      intersect: true,
+      callbacks: {
+        title: function(tooltipItem, data) {
+          let point = tooltipItem[0].label; 
+          return `Day ${point}`;
+        },
+      }
+    },
+    responsive: true,
+    maintainAspectRatio: false,
+    layout: {
+      padding: {
+        left: 10,
+        right: 10,
+        top: 0,
+        bottom: 30
+      },
+    },
+    scales: {
+      xAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: 'Days since confrmed cases > 99',
+        },
+        type: 'linear',
+        position: 'left',
+      ticks: {
+        // Include a dollar sign in the ticks
+        callback: function(value, index, values) {
+            return parseInt(value);
+        },
+      },
+    }],
+      yAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Total number of Deaths',
+          },
+          type: 'linear',
+          position: 'left',
+        },
+      ]
+    }
+  }
+});
   
 main()
 
