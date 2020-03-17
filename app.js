@@ -84,7 +84,7 @@ const dataMap = {
       responsive: true,
       maintainAspectRatio: false,
       layout: {
-        padding: {
+        margin: {
           left: 10,
           right: 10,
           top: 10,
@@ -214,9 +214,10 @@ function main() {
     });
     search.addEventListener('keyup', function() {searchNation('search-nation', 'nations-list');});
     document.querySelectorAll('input[type="checkbox"]').forEach((el) =>{
-      el.addEventListener('change', (e) => {getSelectedNation(e, compChart, data)})
+      el.addEventListener('change', (e) => {changeNations(e, compChart, data)})
     });
     updateChart(compChart, data, nationsToPlot);
+    createChips(nationsToPlot);
     checkNations();
 })
 }
@@ -294,7 +295,7 @@ function populateNations(data, ulID){
 
 function searchNation(searchID, ulID) {
   // Declare variables
-  let input, filter, ul, li, a, i, txtValue;
+  let input, filter, ul, li, i, txtValue;
   input = document.getElementById(searchID);
   filter = input.value.toUpperCase();
   ul = document.getElementById(ulID);
@@ -312,6 +313,43 @@ function searchNation(searchID, ulID) {
   }
 }
 
+function removeFromChart(divChip) {
+  const nation = divChip.childNodes[0].nodeValue;
+  document.querySelectorAll('input[type="checkbox"]').forEach((el) => {
+    if (nation == el.parentNode.innerText) {
+      el.checked = false;
+      el.dispatchEvent(new Event("change"));
+      divChip.classList.add('hidden')
+    }
+  });
+}
+
+function getChip(nation){
+  let chip = null;
+  document.querySelectorAll('.chip').forEach((divChip) => {
+    if (nation == divChip.childNodes[0].nodeValue) {
+      chip = divChip;
+    }
+  });
+  return chip;
+}
+
+function createChips(nations){
+  const divActive = document.getElementById('active-nations');
+  const divChip = document.createElement("div");
+  divChip.classList.add('chip')
+  const span = document.createElement("span");
+  span.classList.add('closebtn');
+  nations.forEach(nation => {
+    divChip.innerText = nation;
+    span.innerText = 'x';
+    divChip.append(span);
+    span.addEventListener('click', () => {removeFromChart(divChip);} );
+    divActive.appendChild(divChip);
+  });
+}
+
+
 function checkNations() {
   document.querySelectorAll('input[type="checkbox"]').forEach((el) => {
     if (nationsToPlot.includes(el.parentNode.innerText)) {
@@ -320,18 +358,24 @@ function checkNations() {
   })
 }
 
-function getSelectedNation(e, compChart, data) {
-  nation = e.target.parentNode.innerText
-  if (e.target.checked == false) {
+function getSelectedNation(node){
+  nation = node.parentNode.innerText
+  if (node.checked == false) {
     let ix = nationsToPlot.indexOf(nation);
+    let divChip = getChip(nation);    
+    divChip.remove();
     if (ix > -1) {
       nationsToPlot.splice(ix, 1)
     }
   }
   else{
     nationsToPlot.push(nation);
+    createChips(nationsToPlot);
   }
-  console.log(nationsToPlot);
+}
+
+function changeNations(e, compChart, data) {
+  getSelectedNation(e.target);
   removeDataSets(compChart);
   updateChart(compChart, data, nationsToPlot);
 }
