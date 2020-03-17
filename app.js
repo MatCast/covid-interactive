@@ -200,10 +200,10 @@ function transpose(data) {
   });
 }
 
-const dataComp = d3.json(confirmedURL).then(function(dataComp) {return dataComp})
+
 
 function main() {
-  d3.json(confirmedURL).then(function(dataComp) {
+  Promise.all([d3.json(confirmedURL), d3.json(deathsURL)]).then(function([dataComp, dataDeaths]) {
     populateNations(dataComp, 'nations-list');
     const search = document.getElementById('search-nation');
     const close = document.getElementById('close-inputs');
