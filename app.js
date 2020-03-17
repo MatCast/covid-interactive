@@ -65,7 +65,8 @@ const dataMap = {
     }
   };
  
-  const dataURL = 'confirmed.json';
+  const confirmedURL = 'confirmed.json';
+  const deathsURL = 'deaths.json';
   //  temperature chart
   const compChart = new Chart(document.getElementById('compChart').getContext('2d'), {
     // The type of chart we want to create
@@ -125,7 +126,7 @@ const dataMap = {
   });
   
   //  pressure chart
-  const deathsChart = new Chart(document.getElementById('pressChart').getContext('2d'), {
+  const deathsChart = new Chart(document.getElementById('deathsChart').getContext('2d'), {
     // The type of chart we want to create
     type: 'line',
   
@@ -199,9 +200,11 @@ function transpose(data) {
   });
 }
 
+const dataComp = d3.json(confirmedURL).then(function(dataComp) {return dataComp})
+
 function main() {
-  d3.json(dataURL).then(function(data) {
-    populateNations(data, 'nations-list');
+  d3.json(confirmedURL).then(function(dataComp) {
+    populateNations(dataComp, 'nations-list');
     const search = document.getElementById('search-nation');
     const close = document.getElementById('close-inputs');
     search.addEventListener('focusin', function() {
@@ -215,14 +218,15 @@ function main() {
     });
     search.addEventListener('keyup', function() {searchNation('search-nation', 'nations-list');});
     document.querySelectorAll('input[type="checkbox"]').forEach((el) =>{
-      el.addEventListener('change', (e) => {changeNations(e, compChart, data)})
+      el.addEventListener('change', (e) => {changeNations(e, compChart, deathChart, dataComp, dataDeaths)})
     });
-    updateChart(compChart, data, nationsToPlot);
+    updateChart(compChart, dataComp, nationsToPlot);
     createChips(nationsToPlot);
     checkNations();
 })
 }
-  
+
+
 function prepDataset(data, nation){
   const dataObject = {
     labels: [],
@@ -236,6 +240,26 @@ function prepDataset(data, nation){
     if (d > 99) {
       i += 1;
       dataObject.labels.push(i)
+      dataObject.dataset.data.push({
+        x: i,
+        y: d,
+      })
+    }
+  });
+  return dataObject;
+}
+
+function prepDeaths(data, nation, casesObject){
+  const dataObject = {
+    labels: casesObject.labels,
+    dataset : {
+      label: nation,
+      data: [],
+  }
+  }
+  const start = data[nation].length - casesObject.labels.length;
+  data[nation].forEach((d,i) => {
+    if (i >= start) {
       dataObject.dataset.data.push({
         x: i,
         y: d,
@@ -348,7 +372,6 @@ function createChips(nations){
   });
 }
 
-
 function checkNations() {
   document.querySelectorAll('input[type="checkbox"]').forEach((el) => {
     if (nationsToPlot.includes(el.parentNode.innerText)) {
@@ -376,10 +399,12 @@ function getSelectedNation(node){
   }
 }
 
-function changeNations(e, compChart, data) {
+function changeNations(e, compChart, deathChart, dataComp, dataDeaths) {
   getSelectedNation(e.target);
   removeDataSets(compChart);
-  updateChart(compChart, data, nationsToPlot);
+  updateChart(compChart, dataComp, nationsToPlot);
+  removeDataSets(deathChart);
+  updateChart(deathChart, dataDeaths, nationsToPlot);
 }
 
 // Updates all datasets of the chart removing old ones
